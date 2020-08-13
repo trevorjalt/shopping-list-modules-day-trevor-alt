@@ -1,6 +1,7 @@
 const store = {
   items: [],
-  hideCheckedItems: false
+  hideCheckedItems: false,
+  editTitle: false
 };
 
 const generateItemElement = function (item) {
@@ -37,7 +38,7 @@ const render = function () {
   let items = [...store.items];
   if (store.hideCheckedItems) {
     items = items.filter(item => !item.checked);
-  }
+  } 
   // render the shopping list in the DOM
   const shoppingListItemsString = generateShoppingItemsString(items);
   // insert that HTML into the DOM
@@ -110,6 +111,10 @@ const toggleCheckedItemsFilter = function () {
   store.hideCheckedItems = !store.hideCheckedItems;
 };
 
+const toggleEditedItemsFilter = function () {
+  store.editTitle = !store.editTitle;
+}
+
 /**
  * Places an event listener on the checkbox
  * for hiding completed items.
@@ -117,6 +122,13 @@ const toggleCheckedItemsFilter = function () {
 const handleToggleFilterClick = function () {
   $('.js-filter-checked').click(() => {
     toggleCheckedItemsFilter();
+    render();
+  });
+};
+
+const handleToggleEditedClick = function () {
+  $('.js-editfilter-checked').click(() => {
+    toggleEditedItemsFilter();
     render();
   });
 };
@@ -137,6 +149,7 @@ const bindEventListeners = function () {
   handleDeleteItemClicked();
   handleEditShoppingItemSubmit();
   handleToggleFilterClick();
+  handleToggleEditedClick();
 };
 
 // This object contains the only exposed methods from this module:
